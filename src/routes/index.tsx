@@ -25,7 +25,13 @@ import {
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute('/')({
+  component: App,
+  loader: async () => {
+    // SSR - no data needed for static landing page
+    return {}
+  },
+})
 
 // Simple, cohesive animation - just fade up
 function FadeIn({
