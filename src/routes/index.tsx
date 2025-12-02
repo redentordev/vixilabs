@@ -24,8 +24,28 @@ import {
 } from 'lucide-react'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
+import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/')({ component: App })
+
+// Dot background pattern component
+function DotBackground({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={cn("relative w-full", className)}>
+      <div
+        className={cn(
+          "absolute inset-0",
+          "[background-size:20px_20px]",
+          "[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]",
+          "dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]",
+        )}
+      />
+      {/* Radial gradient for faded edges */}
+      <div className="pointer-events-none absolute inset-0 bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+      <div className="relative z-10">{children}</div>
+    </div>
+  )
+}
 
 // Simple, cohesive animation - just fade up
 function FadeIn({
@@ -274,10 +294,9 @@ function App() {
 
 function HeroSection() {
   return (
-    <section className="relative py-16 sm:py-20 px-4 sm:px-6 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5" />
-
-      <div className="relative max-w-5xl mx-auto text-center">
+    <DotBackground>
+      <section className="relative py-16 sm:py-20 px-4 sm:px-6 overflow-hidden">
+        <div className="relative max-w-5xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -345,9 +364,10 @@ function HeroSection() {
               </div>
             ))}
           </div>
-        </motion.div>
-      </div>
-    </section>
+          </motion.div>
+        </div>
+      </section>
+    </DotBackground>
   )
 }
 
