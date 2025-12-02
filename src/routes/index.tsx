@@ -24,28 +24,8 @@ import {
 } from 'lucide-react'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/')({ component: App })
-
-// Dot background pattern component
-function DotBackground({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={cn("relative w-full", className)}>
-      <div
-        className={cn(
-          "absolute inset-0",
-          "[background-size:20px_20px]",
-          "[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]",
-          "dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]",
-        )}
-      />
-      {/* Radial gradient for faded edges */}
-      <div className="pointer-events-none absolute inset-0 bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
-      <div className="relative z-10">{children}</div>
-    </div>
-  )
-}
 
 // Simple, cohesive animation - just fade up
 function FadeIn({
@@ -78,11 +58,11 @@ function AnimatedTimeline({ painPoints }: { painPoints: { time: string; task: st
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.3 })
 
-  // Timing: circle pops, then line grows, then next circle, etc.
-  const getCircleDelay = (index: number) => index * 0.6
-  const getLineDelay = (index: number) => index * 0.6 + 0.2
-  const getContentDelay = (index: number) => index * 0.6 + 0.1
-  const totalAnimationTime = painPoints.length * 0.6
+  // Timing: circle pops, then line grows, then next circle, etc. (20% faster)
+  const getCircleDelay = (index: number) => index * 0.48
+  const getLineDelay = (index: number) => index * 0.48 + 0.16
+  const getContentDelay = (index: number) => index * 0.48 + 0.08
+  const totalAnimationTime = painPoints.length * 0.48
 
   return (
     <div ref={ref}>
@@ -227,25 +207,6 @@ function WaveText({
   )
 }
 
-// Section divider with wave pattern
-function WaveDivider({ flip = false, fromColor = 'bg-background', toColor = 'bg-secondary/30' }: { flip?: boolean; fromColor?: string; toColor?: string }) {
-  return (
-    <div className={`relative h-16 sm:h-24 ${flip ? 'rotate-180' : ''}`}>
-      <svg
-        className="absolute inset-0 w-full h-full"
-        viewBox="0 0 1440 100"
-        preserveAspectRatio="none"
-        fill="none"
-      >
-        <path
-          d="M0,50 C360,100 1080,0 1440,50 L1440,100 L0,100 Z"
-          className={`${toColor.replace('bg-', 'fill-')}`}
-        />
-      </svg>
-    </div>
-  )
-}
-
 // Dot pattern divider
 function DotDivider() {
   return (
@@ -271,21 +232,15 @@ function App() {
     <div className="min-h-screen bg-background text-foreground">
       <div className="h-16" />
       <HeroSection />
-      <WaveDivider toColor="bg-secondary/30" />
       <PainPointsSection />
-      <WaveDivider flip toColor="bg-secondary/30" />
       <HowItWorksSection />
       <DotDivider />
       <ServicesSection />
-      <WaveDivider flip toColor="bg-secondary/30" />
       <OtherServicesSection />
-      <WaveDivider toColor="bg-secondary/30" />
       <WeGetItSection />
-      <WaveDivider flip toColor="bg-secondary/30" />
       <PricingSection />
       <DotDivider />
       <TestimonialsSection />
-      <WaveDivider flip toColor="bg-secondary/30" />
       <CTASection />
       <Footer />
     </div>
@@ -294,9 +249,10 @@ function App() {
 
 function HeroSection() {
   return (
-    <DotBackground>
-      <section className="relative py-16 sm:py-20 px-4 sm:px-6 overflow-hidden">
-        <div className="relative max-w-5xl mx-auto text-center">
+    <section className="relative py-20 sm:py-28 px-4 sm:px-6 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5" />
+
+      <div className="relative max-w-5xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -364,10 +320,9 @@ function HeroSection() {
               </div>
             ))}
           </div>
-          </motion.div>
-        </div>
-      </section>
-    </DotBackground>
+        </motion.div>
+      </div>
+    </section>
   )
 }
 
@@ -380,7 +335,7 @@ function PainPointsSection() {
   ]
 
   return (
-    <section id="pain-points" className="py-16 sm:py-20 px-4 sm:px-6 bg-secondary/30">
+    <section id="pain-points" className="py-20 sm:py-28 px-4 sm:px-6 bg-secondary/30">
       <div className="max-w-4xl mx-auto">
         <FadeIn className="text-center mb-10 sm:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">The Traditional Way Is Broken</h2>
@@ -424,7 +379,7 @@ function HowItWorksSection() {
   ]
 
   return (
-    <section id="how-it-works" className="py-16 sm:py-20 px-4 sm:px-6">
+    <section id="how-it-works" className="py-20 sm:py-28 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <FadeIn className="text-center mb-10 sm:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
@@ -500,7 +455,7 @@ function ServicesSection() {
   ]
 
   return (
-    <section id="services" className="py-16 sm:py-20 px-4 sm:px-6 bg-secondary/30">
+    <section id="services" className="py-20 sm:py-28 px-4 sm:px-6 bg-secondary/30">
       <div className="max-w-6xl mx-auto">
         <FadeIn className="text-center mb-10 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">What We Build</h2>
@@ -576,7 +531,7 @@ function OtherServicesSection() {
   ]
 
   return (
-    <section className="py-16 sm:py-20 px-4 sm:px-6">
+    <section className="py-20 sm:py-28 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <FadeIn className="text-center mb-10 sm:mb-12">
           <p className="text-sm font-medium text-primary mb-2">Not looking for an AI prototype?</p>
@@ -618,7 +573,7 @@ function OtherServicesSection() {
 
 function WeGetItSection() {
   return (
-    <section className="py-16 sm:py-20 px-4 sm:px-6 bg-secondary/30">
+    <section className="py-20 sm:py-28 px-4 sm:px-6 bg-secondary/30">
       <div className="max-w-4xl mx-auto">
         <FadeIn className="text-center mb-10 sm:mb-12">
           <p className="text-sm font-medium text-primary mb-2">A message from us</p>
@@ -678,7 +633,7 @@ function PricingSection() {
   ]
 
   return (
-    <section id="pricing" className="py-16 sm:py-20 px-4 sm:px-6">
+    <section id="pricing" className="py-20 sm:py-28 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         <FadeIn className="text-center mb-10 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Simple Pricing</h2>
@@ -792,7 +747,7 @@ function TestimonialsSection() {
   ]
 
   return (
-    <section id="testimonials" className="py-16 sm:py-20 px-4 sm:px-6 bg-secondary/30">
+    <section id="testimonials" className="py-20 sm:py-28 px-4 sm:px-6 bg-secondary/30">
       <div className="max-w-6xl mx-auto">
         <FadeIn className="text-center mb-10 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">What Clients Say</h2>
@@ -828,7 +783,7 @@ function TestimonialsSection() {
 
 function CTASection() {
   return (
-    <section className="py-16 sm:py-20 px-4 sm:px-6">
+    <section className="py-20 sm:py-28 px-4 sm:px-6">
       <FadeIn className="max-w-4xl mx-auto text-center">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
           Ready to Build Your AI MVP?
