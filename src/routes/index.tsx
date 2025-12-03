@@ -848,8 +848,16 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} VixiLabs. All rights reserved.
+        <div className="mt-8 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+          <p>© {new Date().getFullYear()} VixiLabs. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <a href="/terms" className="hover:text-foreground transition-colors">
+              Terms of Service
+            </a>
+            <a href="/privacy" className="hover:text-foreground transition-colors">
+              Privacy Policy
+            </a>
+          </div>
         </div>
       </div>
     </footer>
