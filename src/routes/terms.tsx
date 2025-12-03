@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Mail } from 'lucide-react'
 
 export const Route = createFileRoute('/terms')({
   component: TermsPage,
@@ -7,11 +8,12 @@ export const Route = createFileRoute('/terms')({
 
 function TermsPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       <div className="h-16" />
+      <main className="flex-1">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <h1 className="text-3xl sm:text-4xl font-bold mb-2">Terms of Service</h1>
-        <p className="text-muted-foreground mb-12">Last updated: December 2024</p>
+        <p className="text-muted-foreground mb-12">Last updated: December 2025</p>
 
         <div className="prose prose-neutral dark:prose-invert max-w-none space-y-8">
           <section>
@@ -201,6 +203,61 @@ function TermsPage() {
           </section>
         </div>
       </div>
+      </main>
+      <Footer />
     </div>
+  )
+}
+
+function Footer() {
+  return (
+    <footer className="py-12 px-4 sm:px-6 border-t border-border">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-center md:text-left">
+          <div className="flex items-center justify-center md:justify-start gap-3">
+            <img
+              src="/vixilabs-logo.png"
+              alt="VixiLabs"
+              className="w-8 h-8 rounded-lg"
+            />
+            <span className="font-semibold">VixiLabs</span>
+          </div>
+
+          <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
+            <a href="/#how-it-works" className="hover:text-foreground transition-colors">
+              How It Works
+            </a>
+            <a href="/#services" className="hover:text-foreground transition-colors">
+              Services
+            </a>
+            <a href="/#pricing" className="hover:text-foreground transition-colors">
+              Pricing
+            </a>
+          </div>
+
+          <div className="flex justify-center md:justify-end">
+            <a
+              href="mailto:business@vixilabs.com"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Mail size={16} />
+              business@vixilabs.com
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-8 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+          <p>© {new Date().getFullYear()} VixiLabs. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <a href="/terms" className="hover:text-foreground transition-colors">
+              Terms of Service
+            </a>
+            <a href="/privacy" className="hover:text-foreground transition-colors">
+              Privacy Policy
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   )
 }
